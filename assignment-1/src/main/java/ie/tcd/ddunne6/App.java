@@ -9,6 +9,6 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        CreateIndexes createIndexes = new CreateIndexes("../corpus/cran.all.10");
+        CreateIndexes createIndexes = new CreateIndexes("../corpus/cran.all.1400");
     }
 }

@@ -4,12 +4,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
+import java.nio.file.Paths;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -68,12 +71,17 @@ public class CreateIndexes
         // File opening Setup
         FileInputStream fstream = new FileInputStream(getCorpusPath());
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-
+        
         String strLine;
         String currentTag = "ID"; // Assumption document starts with ID
         String previousTag = "";
         String contentOfTag = "";
         Boolean startNewContent = true;
+        Boolean firstIteration = true;
+
+        // ArrayList of documents in the corpus
+		ArrayList<Document> documents = new ArrayList<Document>();
+        Document doc = new Document();
 
         System.out.println("<--- STARTED Parsing " + getCorpusPath() +" --->");
 
@@ -83,14 +91,22 @@ public class CreateIndexes
             if (isNewTag(strLine)) {
                 previousTag = currentTag;
                 currentTag = extractTagName(strLine);
-                System.out.println("NEW TAG >> " + strLine);
                 // currentTag will become equal to ID, Title, Author, Bibliography or Body
+                if(!"ID".equals(previousTag)) {
+                    doc.add(new TextField(previousTag, contentOfTag, Field.Store.YES));
+                    System.out.println("DEBUG: doc.add(new TextField(" + previousTag + ", " + contentOfTag + ", Field.Store.YES));");
+                }
                 if (isIdTag(strLine)) {
                     String docId = strLine.substring(3);
-                    System.out.println("ID >> " + docId);
-                }
-                if(!"ID".equals(previousTag)) {
-                    System.out.println("SAVING Previous " + previousTag + ": " + contentOfTag);
+                    if (!firstIteration) {
+                        documents.add(doc);
+                        System.out.println("DEBUG: documents.add(doc)");
+                    }
+                    firstIteration = false;
+                    doc = new Document();
+                    System.out.println("DEBUG: Document doc = new Document();");
+                    doc.add(new StringField(currentTag, docId, Field.Store.YES));
+                    System.out.println("DEBUG: doc.add(new StringField(" + currentTag + ", " + docId + ", Field.Store.YES));");
                 }
                 startNewContent = true;
             }
@@ -105,9 +121,25 @@ public class CreateIndexes
             }
         }
 
-        // Save the last tag
-        System.out.println("SAVING Previous " + currentTag + ": " + contentOfTag);
+        // Index the last tag
+        doc.add(new TextField(currentTag, contentOfTag, Field.Store.YES));
+        System.out.println("DEBUG: doc.add(new TextField(" + currentTag + ", " + contentOfTag + ", Field.Store.YES));");
+        documents.add(doc);
+        System.out.println("DEBUG: documents.add(doc)");
 
+        //System.out.println("8 DEBUG DOCUMENTS: " + documents.get(8).toString());
+        System.out.println("0 DEBUG DOCUMENTS: " + documents.get(0).toString());
+        System.out.println("1399 DEBUG DOCUMENTS: " + documents.get(1399).toString());
+        // for (Document document : documents) {
+        //      System.out.println("DEBUG DOCUMENTS: " + document.toString());
+        // }
+
+        // Save the documents to the index
+        iwriter.addDocuments(documents);
+
+        // Commit changes and close everything
+        iwriter.close();
+        directory.close();
         System.out.println("<--- FINISHED Parsing and Indexing --->");
 
         fstream.close();
