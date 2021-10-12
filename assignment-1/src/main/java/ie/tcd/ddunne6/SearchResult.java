@@ -9,7 +9,7 @@ class SearchResult {
 
     public SearchResult(int query, int doc, int rank, float score) {
         this.queryId = query;
-        this.docId = docId;
+        this.docId = doc;
         this.rank = rank;
         this.score = score;
     }
@@ -61,7 +61,7 @@ class SearchResult {
             + Q0 + "\t"
             + Integer.toString(docId) + "\t"
             + Integer.toString(rank) + "\t"
-            + Float.toString(score) + "\t"
+            + Float.toString(score) + "  \t"
             + STANDARD;
     }
 }

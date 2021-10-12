@@ -83,30 +83,27 @@ public class CreateIndex
 		ArrayList<Document> documents = new ArrayList<Document>();
         Document doc = new Document();
 
-        System.out.println("<--- STARTED Parsing " + getCorpusPath() +" --->");
+        System.out.println("<----- STARTED Parsing " + getCorpusPath() +" ----->");
 
         //Read File Line By Line
         while ((strLine = br.readLine()) != null)   {
-            System.out.println("\tPARSE: " + strLine);
+            //System.out.println("\tPARSE: " + strLine);
             if (isNewTag(strLine)) {
                 previousTag = currentTag;
                 currentTag = extractTagName(strLine);
                 // currentTag will become equal to ID, Title, Author, Bibliography or Body
                 if(!"ID".equals(previousTag)) {
                     doc.add(new TextField(previousTag, contentOfTag, Field.Store.YES));
-                    System.out.println("DEBUG: doc.add(new TextField(" + previousTag + ", " + contentOfTag + ", Field.Store.YES));");
                 }
                 if (isIdTag(strLine)) {
                     String docId = strLine.substring(3);
                     if (!firstIteration) {
                         documents.add(doc);
-                        System.out.println("DEBUG: documents.add(doc)");
                     }
                     firstIteration = false;
                     doc = new Document();
-                    System.out.println("DEBUG: Document doc = new Document();");
                     doc.add(new StringField(currentTag, docId, Field.Store.YES));
-                    System.out.println("DEBUG: doc.add(new StringField(" + currentTag + ", " + docId + ", Field.Store.YES));");
+                    System.out.println("Document " + docId + " indexed");
                 }
                 startNewContent = true;
             }
@@ -123,24 +120,18 @@ public class CreateIndex
 
         // Index the last tag
         doc.add(new TextField(currentTag, contentOfTag, Field.Store.YES));
-        System.out.println("DEBUG: doc.add(new TextField(" + currentTag + ", " + contentOfTag + ", Field.Store.YES));");
         documents.add(doc);
-        System.out.println("DEBUG: documents.add(doc)");
 
         //System.out.println("8 DEBUG DOCUMENTS: " + documents.get(8).toString());
-        System.out.println("0 DEBUG DOCUMENTS: " + documents.get(0).toString());
-        System.out.println("1399 DEBUG DOCUMENTS: " + documents.get(1399).toString());
-        // for (Document document : documents) {
-        //      System.out.println("DEBUG DOCUMENTS: " + document.toString());
-        // }
-
+        // System.out.println("0 DEBUG DOCUMENTS: " + documents.get(0).toString());
+        // System.out.println("1399 DEBUG DOCUMENTS: " + documents.get(1399).toString());
         // Save the documents to the index
         iwriter.addDocuments(documents);
 
         // Commit changes and close everything
         iwriter.close();
         directory.close();
-        System.out.println("<--- FINISHED Parsing and Indexing --->");
+        System.out.println("<----- FINISHED - Parsed & Indexed ----->");
 
         fstream.close();
     }
