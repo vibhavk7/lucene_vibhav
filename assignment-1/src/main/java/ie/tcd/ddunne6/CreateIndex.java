@@ -22,7 +22,7 @@ import org.apache.lucene.store.FSDirectory;
  * Hello world!
  *
  */
-public class CreateIndexes
+public class CreateIndex
 {
     private String corpusPath;
 
@@ -37,7 +37,7 @@ public class CreateIndexes
         this.corpusPath = path;
     }
 
-    public CreateIndexes(String path) {
+    public CreateIndex(String path) {
         setCorpusPath(path);
         System.out.println("DEBUG " + getCorpusPath());
         try {
