@@ -20,3 +20,7 @@ corpus/
 - cran.all - The documents
 - cran.qry - The queries
 - QRelsCorrectedforTRECeval - The relevance assesments (adjusted)
+
+
+trec_eval ../corpus/QRelsCorrectedforTRECeval results/someFile.test
+trec_eval -m runid -m map -m gm_map -m P.5 ../corpus/QRelsCorrectedforTRECeval results/someFile.test

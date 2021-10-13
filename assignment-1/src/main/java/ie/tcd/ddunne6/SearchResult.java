@@ -61,7 +61,7 @@ class SearchResult {
             + Q0 + "\t"
             + Integer.toString(docId) + "\t"
             + Integer.toString(rank) + "\t"
-            + Float.toString(score) + "  \t"
+            + Float.toString(score) + "\t"
             + STANDARD;
     }
 }
