@@ -18,10 +18,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-/**
- * Hello world!
- *
- */
 public class CreateIndex
 {
     private String corpusPath;
@@ -37,22 +33,18 @@ public class CreateIndex
         this.corpusPath = path;
     }
 
-    public CreateIndex(String path) {
+    public CreateIndex(String path, Analyzer analyzer) {
         setCorpusPath(path);
         System.out.println("DEBUG " + getCorpusPath());
         try {
-            parseCorpusAndIndex();
+            parseCorpusAndIndex(analyzer);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void parseCorpusAndIndex() throws IOException {
-        // Lucene Setup
-        // Analyzer that is used to process TextField
-        Analyzer analyzer = new StandardAnalyzer();
-
+    public void parseCorpusAndIndex(Analyzer analyzer) throws IOException {
         // To store an index in memory
         // Directory directory = new RAMDirectory();
         // To store an index on disk

@@ -1,17 +1,26 @@
 package ie.tcd.ddunne6;
 
 class SearchResult {
-    private static String STANDARD = "STANDARD";
     private static String Q0 = "Q0";
 
     private int queryId, docId, rank;
     private float score;
+    private String runId;
 
-    public SearchResult(int query, int doc, int rank, float score) {
+    public SearchResult(int query, int doc, int rank, float score, String runId) {
         this.queryId = query;
         this.docId = doc;
         this.rank = rank;
         this.score = score;
+        this.runId = runId;
+    }
+
+    public String getRunId() {
+        return this.runId;
+    }
+
+    public void setRunId(String runId) {
+        this.runId = runId;
     }
     
     public int getQueryId() {
@@ -53,7 +62,7 @@ class SearchResult {
             + "DocID: " + Integer.toString(docId) + "\n"
             + "Rank: " + Integer.toString(rank) + "\n"
             + "Score: " + Float.toString(score) + "\n"
-            + "Standard: " + STANDARD;
+            + "RunId: " + getRunId();
     }
 
     public String toTrecEvalFormat() {
@@ -62,6 +71,6 @@ class SearchResult {
             + Integer.toString(docId) + "\t"
             + Integer.toString(rank) + "\t"
             + Float.toString(score) + "\t"
-            + STANDARD;
+            + getRunId();
     }
 }
