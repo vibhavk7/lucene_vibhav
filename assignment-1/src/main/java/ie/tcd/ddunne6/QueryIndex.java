@@ -26,6 +26,7 @@ class QueryIndex {
 	private static String INDEX_DIRECTORY = "../index";
     // Limit the number of search results we get
 	private static int MAX_RESULTS = 50;
+    private static String RESULTS_DIRECTORY = "/results";
 
     private ArrayList<CranQuery> queries = new ArrayList<CranQuery>();
     private ArrayList<SearchResult> results = new ArrayList<SearchResult>();
@@ -38,6 +39,7 @@ class QueryIndex {
             System.out.println("Issue with QueryIndex.");
             e.printStackTrace();
         }
+        saveToFile("someFile");
     }
 
     public void parseCorpus(String path) throws IOException {
@@ -102,8 +104,10 @@ class QueryIndex {
 
         for (CranQuery cranQuery: getQueries()) {
             System.out.println("Cranfield Query ID: " + cranQuery.getId());
-            System.out.println("\t" + cranQuery.getContent());
-            Query query = parser.parse(cranQuery.getContent());
+            //System.out.println("Query -> " + cranQuery.getContent());
+            String searchTerm = removeSpecialChars(cranQuery.getContent());
+            //System.out.println("Formatted -> " + searchTerm);
+            Query query = parser.parse(searchTerm);
             ScoreDoc[] hits = isearcher.search(query, MAX_RESULTS).scoreDocs;
             //System.out.println("Number of hits: " + Integer.toString(hits.length));
             //System.out.println("QueryID\tQ0\tDocID\tRank\tScore\t\tNote");
@@ -111,12 +115,32 @@ class QueryIndex {
                 Document hitDoc = isearcher.doc(hits[i].doc);
                 SearchResult searchResult = new SearchResult(cranQuery.getId(), 
                     Integer.valueOf(hitDoc.get("ID")), i+1, hits[i].score);
-                //System.out.println(searchResult.toTrecEvalFormat());
+                System.out.println(searchResult.toTrecEvalFormat());
+                addResult(searchResult);
 		    }
         }
 
 		ireader.close();
 		directory.close();
+    }
+
+    public void saveToFile(String fileName) {
+        File file = new File(RESULTS_DIRECTORY + "/" + fileName);
+
+        if (file.exists()) {
+            file.delete(); 
+        }
+        file.createNewFile();
+
+        FileWriter fileWriter = new FileWriter(RESULTS_DIRECTORY + "/" + fileName);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.print("Some String");
+        printWriter.printf("Product name is %s and its price is %d $", "iPhone", 1000);
+        printWriter.close();
+    }
+
+    public String removeSpecialChars(String query) {
+        return query.replaceAll("\\?", "");
     }
 
     public void addQuery(CranQuery query) {

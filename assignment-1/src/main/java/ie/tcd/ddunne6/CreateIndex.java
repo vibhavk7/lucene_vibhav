@@ -43,7 +43,7 @@ public class CreateIndex
         try {
             parseCorpusAndIndex();
         } catch (Exception e) {
-            //TODO: handle exception
+            e.printStackTrace();
         }
 
     }

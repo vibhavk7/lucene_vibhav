@@ -5,9 +5,13 @@ This will have the effect of installing all prerequisite packages e.g. lucene 8.
 
 ```mvn package```
 
-## Run
+## Create Index
 
-```java -jar target/assignment-1-1.0-SNAPSHOT.jar```
+```java -jar target/assignment-1-1.0-SNAPSHOT.jar index```
+
+## Run Queries
+
+```java -jar target/assignment-1-1.0-SNAPSHOT.jar query```
 
 
 
@@ -15,4 +19,4 @@ This will have the effect of installing all prerequisite packages e.g. lucene 8.
 corpus/
 - cran.all - The documents
 - cran.qry - The queries
-- cranqrel - The relevance assesments
+- QRelsCorrectedforTRECeval - The relevance assesments (adjusted)
