@@ -1,6 +1,7 @@
 # lucene-cranfield-collection
 
 ## RECOMMENDED: Run the Entire Thing
+First navigate to the assignment-1/ directory.
 There is a run.sh file that will build and execute the program which will print out the trec eval results afterwards.
 
 ```bash run.sh```

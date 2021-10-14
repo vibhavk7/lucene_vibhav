@@ -45,17 +45,9 @@ public class CreateIndex
     }
 
     public void parseCorpusAndIndex(Analyzer analyzer) throws IOException {
-        // To store an index in memory
-        // Directory directory = new RAMDirectory();
-        // To store an index on disk
         Directory directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         
-        // Index opening mode
-        // IndexWriterConfig.OpenMode.CREATE = create a new index
-        // IndexWriterConfig.OpenMode.APPEND = open an existing index
-        // IndexWriterConfig.OpenMode.CREATE_OR_APPEND = create an index if it
-        // does not exist, otherwise it opens it
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         
         IndexWriter iwriter = new IndexWriter(directory, config);
@@ -79,7 +71,6 @@ public class CreateIndex
 
         //Read File Line By Line
         while ((strLine = br.readLine()) != null)   {
-            //System.out.println("\tPARSE: " + strLine);
             if (isNewTag(strLine)) {
                 previousTag = currentTag;
                 currentTag = extractTagName(strLine);
@@ -114,9 +105,6 @@ public class CreateIndex
         doc.add(new TextField(currentTag, contentOfTag, Field.Store.YES));
         documents.add(doc);
 
-        //System.out.println("8 DEBUG DOCUMENTS: " + documents.get(8).toString());
-        // System.out.println("0 DEBUG DOCUMENTS: " + documents.get(0).toString());
-        // System.out.println("1399 DEBUG DOCUMENTS: " + documents.get(1399).toString());
         // Save the documents to the index
         iwriter.addDocuments(documents);
 
