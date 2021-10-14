@@ -1,15 +1,15 @@
 echo "Building Project"
 
-#mvn package
+mvn package
 
 echo "Running Project with different scoring approaches"
 
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar standard vsm
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar standard bm25
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar whitespace vsm
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar whitespace bm25
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar english vsm
-#java -jar target/assignment-1-1.0-SNAPSHOT.jar english bm25
+java -jar target/assignment-1-1.0-SNAPSHOT.jar standard vsm
+java -jar target/assignment-1-1.0-SNAPSHOT.jar standard bm25
+java -jar target/assignment-1-1.0-SNAPSHOT.jar whitespace vsm
+java -jar target/assignment-1-1.0-SNAPSHOT.jar whitespace bm25
+java -jar target/assignment-1-1.0-SNAPSHOT.jar english vsm
+java -jar target/assignment-1-1.0-SNAPSHOT.jar english bm25
 
 echo "Results available in results/"
 sleep 2

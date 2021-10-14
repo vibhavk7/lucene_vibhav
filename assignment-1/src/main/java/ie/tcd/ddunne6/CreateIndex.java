@@ -59,7 +59,7 @@ public class CreateIndex
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         
         IndexWriter iwriter = new IndexWriter(directory, config);
-
+        
         // File opening Setup
         FileInputStream fstream = new FileInputStream(getCorpusPath());
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
