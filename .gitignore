@@ -8,3 +8,7 @@
 .sudo_as_admin_successful
 .vscode-server/
 .wget-hsts
+trec_eval-9.0.7/
+trec_eval_latest.tar.gz
+.gitconfig
+index/

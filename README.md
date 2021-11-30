@@ -1,7 +1,13 @@
 # lucene-cranfield-collection
 
+Assignment from my Master's module "Information Retrieval and Web Search" where I index the Cranfield Collection and evaluate different performance metrics with trec eval.
+
+## Prerequisites
+
+Install and make [trec_eval](https://github.com/usnistgov/trec_eval)
+
 ## RECOMMENDED: Run the Entire Thing
-First navigate to the assignment-1/ directory.
+First navigate to the *assignment-1/* directory.
 There is a run.sh file that will build and execute the program which will print out the trec eval results afterwards.
 
 ```bash run.sh```
