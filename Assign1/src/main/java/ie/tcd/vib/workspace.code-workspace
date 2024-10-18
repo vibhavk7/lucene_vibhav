@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../.."
+		},
+		{
+			"path": "../../../../../../../../../opt/cs7is3-lucene-tutorial-examples"
+		},
+		{
+			"path": "../../../../../../../../../usr/local/bin"
+		}
+	],
+	"settings": {}
+}

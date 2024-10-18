@@ -1,4 +1,4 @@
-package ie.tcd.ddunne6;
+package ie.tcd.vib;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -61,7 +61,7 @@ public class App
             System.out.println("Creating Index...");
             CreateIndex createIndexes = new CreateIndex(CRANFIELD_DOCUMENT_PATH, analyzer);
             System.out.println("Querying Index...");
-            QueryIndex makeQueries = new QueryIndex(CRANFIELD_QUERY_PATH,  analyzer, similarity, scoringApproach);
+            qIndex makeQueries = new qIndex(CRANFIELD_QUERY_PATH,  analyzer, similarity, scoringApproach);
         }
     }
 }

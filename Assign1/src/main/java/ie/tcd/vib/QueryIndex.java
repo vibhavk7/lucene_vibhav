@@ -1,4 +1,4 @@
-package ie.tcd.ddunne6;
+package ie.tcd.vib;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +22,7 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-class QueryIndex {
+class qIndex {
     // the location of the search index
 	private static String INDEX_DIRECTORY = "../index";
     // Limit the number of search results we get
@@ -32,28 +32,28 @@ class QueryIndex {
     private String scoringApproach;
 
     private ArrayList<CranQuery> queries = new ArrayList<CranQuery>();
-    private ArrayList<SearchResult> results = new ArrayList<SearchResult>();
+    private ArrayList<sResult> results = new ArrayList<sResult>();
 
-    public QueryIndex(String path, Analyzer analyzer, Similarity similarity, String type) {
+    public qIndex(String path, Analyzer analyzer, Similarity similarity, String type) {
         try {
-            parseCorpus(path);
+            pCorp(path);
             
             setScoringApproach(type);
-            queryIndexFromQueries(analyzer, similarity);
+            qIFQ(analyzer, similarity);
             saveToFile();
         } catch (Exception e) {
-            System.out.println("Issue with QueryIndex.");
+            System.out.println("Issue with qIndex.");
             e.printStackTrace();
         }
     }
 
-    public void parseCorpus(String path) throws IOException {
+    public void pCorp(String path) throws IOException {
         // File opening Setup
         FileInputStream fstream = new FileInputStream(path);
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         String strLine;
 
-        int queryId = 1;
+        int qId = 1;
         String queryBody = "";
         Boolean firstIteration = true;
 
@@ -64,10 +64,10 @@ class QueryIndex {
             if(isIdTag(strLine)) {
                 // add ID and content to Query
                 if(!firstIteration) {
-                    CranQuery query = new CranQuery(queryId, queryBody);
+                    CranQuery query = new CranQuery(qId, queryBody);
                     addQuery(query);
                     // Clear buffer, Iterate ID
-                    queryId++;
+                    qId++;
                     queryBody = "";
                 }
                 firstIteration = false;
@@ -82,13 +82,13 @@ class QueryIndex {
             }
         }
         // Add last item
-        CranQuery query = new CranQuery(queryId, queryBody);
+        CranQuery query = new CranQuery(qId, queryBody);
         addQuery(query);
 
         System.out.println("<--- FINISHED Parsing " + path +" --->");
     }
 
-    public void queryIndexFromQueries(Analyzer analyzer, Similarity similarity) throws IOException, ParseException {
+    public void qIFQ(Analyzer analyzer, Similarity similarity) throws IOException, ParseException {
         // Open the folder that contains our search index
 		Directory directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
 		
@@ -108,9 +108,9 @@ class QueryIndex {
             System.out.println("Query ID " + cranQuery.getId() + " complete");
             for (int i = 0; i < hits.length; i++) {
                 Document hitDoc = isearcher.doc(hits[i].doc);
-                SearchResult searchResult = new SearchResult(cranQuery.getId(), 
+                sResult sResult = new sResult(cranQuery.getId(), 
                     Integer.valueOf(hitDoc.get("ID")), i+1, hits[i].score, getScoringApproach());
-                addResult(searchResult);
+                addResult(sResult);
 		    }
         }
 
@@ -129,8 +129,8 @@ class QueryIndex {
 
         FileWriter fileWriter = new FileWriter(filePath);
         PrintWriter printWriter = new PrintWriter(fileWriter);
-        for (SearchResult result: getResults()) {
-            printWriter.println(result.toTrecEvalFormat());
+        for (sResult result: getResults()) {
+            printWriter.println(result.tTrecFormevl());
         }
         printWriter.close();
         System.out.println("RESULTS SAVED to " + filePath);
@@ -156,11 +156,11 @@ class QueryIndex {
         return this.queries;
     }
 
-    public void addResult(SearchResult result) {
+    public void addResult(sResult result) {
         this.results.add(result);
     }
 
-    public ArrayList<SearchResult> getResults() {
+    public ArrayList<sResult> getResults() {
         return this.results;
     }
 

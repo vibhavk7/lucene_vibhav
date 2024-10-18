@@ -1,14 +1,14 @@
-package ie.tcd.ddunne6;
+package ie.tcd.vib;
 
-class SearchResult {
+class sResult {
     private static String Q0 = "Q0";
 
-    private int queryId, docId, rank;
+    private int qId, docId, rank;
     private float score;
     private String runId;
 
-    public SearchResult(int query, int doc, int rank, float score, String runId) {
-        this.queryId = query;
+    public sResult(int query, int doc, int rank, float score, String runId) {
+        this.qId = query;
         this.docId = doc;
         this.rank = rank;
         this.score = score;
@@ -23,12 +23,12 @@ class SearchResult {
         this.runId = runId;
     }
     
-    public int getQueryId() {
-        return this.queryId;
+    public int getqId() {
+        return this.qId;
     }
 
-    public void setQueryId(int id) {
-        this.queryId = id;
+    public void setqId(int id) {
+        this.qId = id;
     }
 
     public int getDocId() {
@@ -57,7 +57,7 @@ class SearchResult {
 
     @Override
     public String toString() {
-        return "QueryID: " + Integer.toString(queryId) + "\n"
+        return "qId: " + Integer.toString(qId) + "\n"
             + "Q0: " + Q0 + "\n"
             + "DocID: " + Integer.toString(docId) + "\n"
             + "Rank: " + Integer.toString(rank) + "\n"
@@ -65,8 +65,8 @@ class SearchResult {
             + "RunId: " + getRunId();
     }
 
-    public String toTrecEvalFormat() {
-        return Integer.toString(queryId) + "\t"
+    public String tTrecFormevl() {
+        return Integer.toString(qId) + "\t"
             + Q0 + "\t"
             + Integer.toString(docId) + "\t"
             + Integer.toString(rank) + "\t"

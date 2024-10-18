@@ -1,4 +1,4 @@
-package ie.tcd.ddunne6;
+package ie.tcd.vib;
 
 class CranQuery {
     private int id;

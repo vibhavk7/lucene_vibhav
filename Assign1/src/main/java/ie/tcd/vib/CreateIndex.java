@@ -1,4 +1,4 @@
-package ie.tcd.ddunne6;
+package ie.tcd.vib;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,31 +20,32 @@ import org.apache.lucene.store.FSDirectory;
 
 public class CreateIndex
 {
-    private String corpusPath;
+    private String Pathcorp;
 
     // Directory where the search index will be saved
     private static String INDEX_DIRECTORY = "../index";
 
-    public String getCorpusPath() {
-        return corpusPath;
+    public void setPathcorp(String path) {
+        this.Pathcorp = path;
     }
 
-    public void setCorpusPath(String path) {
-        this.corpusPath = path;
+    public String getPathcorp() {
+        return Pathcorp;
     }
 
+    
     public CreateIndex(String path, Analyzer analyzer) {
-        setCorpusPath(path);
-        System.out.println("DEBUG " + getCorpusPath());
+        setPathcorp(path);
+        System.out.println("DEBUG " + getPathcorp());
         try {
-            parseCorpusAndIndex(analyzer);
+            pCorpAndIndex(analyzer);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void parseCorpusAndIndex(Analyzer analyzer) throws IOException {
+    public void pCorpAndIndex(Analyzer analyzer) throws IOException {
         Directory directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         
@@ -53,7 +54,7 @@ public class CreateIndex
         IndexWriter iwriter = new IndexWriter(directory, config);
         
         // File opening Setup
-        FileInputStream fstream = new FileInputStream(getCorpusPath());
+        FileInputStream fstream = new FileInputStream(getPathcorp());
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         
         String strLine;
@@ -67,7 +68,7 @@ public class CreateIndex
 		ArrayList<Document> documents = new ArrayList<Document>();
         Document doc = new Document();
 
-        System.out.println("<----- STARTED Parsing " + getCorpusPath() +" ----->");
+        System.out.println("<----- STARTED Parsing " + getPathcorp() +" ----->");
 
         //Read File Line By Line
         while ((strLine = br.readLine()) != null)   {
